@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "comanda",
+            "otherEntityName": "comanda",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "identificador"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "data",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170925201148",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "pedido",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
