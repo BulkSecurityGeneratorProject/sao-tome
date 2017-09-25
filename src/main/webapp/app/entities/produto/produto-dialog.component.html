@@ -1,0 +1,55 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myProdutoLabel">Create or edit a Produto</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!produto.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="produto.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="field_nome"
+                [(ngModel)]="produto.nome" required maxlength="100" />
+            <div [hidden]="!(editForm.controls.nome?.dirty && editForm.controls.nome?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.nome?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.nome?.errors?.maxlength">
+                   This field cannot be longer than 100 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_valor">Valor</label>
+            <input type="number" class="form-control" name="valor" id="field_valor"
+                [(ngModel)]="produto.valor" required />
+            <div [hidden]="!(editForm.controls.valor?.dirty && editForm.controls.valor?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.valor?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.valor?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
