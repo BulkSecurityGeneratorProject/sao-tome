@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "produto",
+            "otherEntityName": "produto",
+            "relationshipType": "one-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "nome",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "estoque"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantidade",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20170925154456",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "estoque",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
