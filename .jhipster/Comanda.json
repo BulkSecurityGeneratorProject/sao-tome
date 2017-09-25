@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "identificador",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "200"
+        },
+        {
+            "fieldName": "disponivel",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170925150012",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "comanda",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
