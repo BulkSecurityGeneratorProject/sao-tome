@@ -1,0 +1,93 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myItemPedidoLabel">Create an Item Pedido</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="!itemPedido.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="itemPedido.id" readonly/>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_comanda">Comanda</label>
+            <select class="form-control" id="field_comanda" name="comanda" [(ngModel)]="comanda" required>
+                <option *ngIf="!editForm.value.comanda" [ngValue]="null" selected></option>
+                <option [ngValue]="comandaOption.id === comanda?.id ? comanda : comandaOption" *ngFor="let comandaOption of comandas; trackBy: trackComandaById">{{comandaOption.identificador}}</option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.comanda?.dirty && editForm.controls.comanda?.invalid)">
+            <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.comanda?.errors?.required">
+                This field is required.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_produto">Produto</label>
+            <select class="form-control" id="field_produto" name="produto" [(ngModel)]="itemPedido.produto" required>
+                <option *ngIf="!editForm.value.produto" [ngValue]="null" selected></option>
+                <option [ngValue]="produtoOption.id === itemPedido.produto?.id ? itemPedido.produto : produtoOption"
+                        *ngFor="let produtoOption of produtos; trackBy: trackProdutoById">{{produtoOption.nome}}
+                </option>
+            </select>
+        </div>
+        <div [hidden]="!(editForm.controls.produto?.dirty && editForm.controls.produto?.invalid)">
+            <small class="form-text text-danger" [hidden]="!editForm.controls.produto?.errors?.required">
+                This field is required.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_quantidade">Quantidade</label>
+            <input type="number" class="form-control" name="quantidade" id="field_quantidade"
+                   [(ngModel)]="itemPedido.quantidade" required/>
+            <div [hidden]="!(editForm.controls.quantidade?.dirty && editForm.controls.quantidade?.invalid)">
+                <small class="form-text text-danger" [hidden]="!editForm.controls.quantidade?.errors?.required">
+                    This field is required.
+                </small>
+                <small class="form-text text-danger" [hidden]="!editForm.controls.quantidade?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive" *ngIf="itemPedidos?.length > 0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><span>Produto</span></th>
+                    <th><span>Quantidade</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let itemPedido of itemPedidos;">
+                    <td>{{itemPedido.produto?.nome}}</td>
+                    <td>{{itemPedido.quantidade}}</td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary" (click)="add()">
+            <span class="fa fa-save"></span>&nbsp;<span>Add</span>
+        </button>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="itemPedidos?.length <= 0 || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
