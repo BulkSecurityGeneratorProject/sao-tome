@@ -59,13 +59,8 @@ export class ItemPedidoDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        if (this.itemPedido.id !== undefined) {
-            this.subscribeToSaveResponse(
-                this.itemPedidoService.update(this.itemPedido));
-        } else {
-            this.subscribeToSaveResponse(
-                this.itemPedidoService.create(this.itemPedido));
-        }
+        this.subscribeToSaveResponse(
+            this.itemPedidoService.create(this.comanda, this.itemPedidos));
     }
 
     private subscribeToSaveResponse(result: Observable<ItemPedido>) {

@@ -3,7 +3,6 @@ package br.com.accesys.saotome.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -17,16 +16,13 @@ public class ItemPedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     @Column(name = "quantidade", nullable = false)
     private Long quantidade;
 
     @ManyToOne(optional = false)
-    @NotNull
     private Pedido pedido;
 
     @ManyToOne(optional = false)
-    @NotNull
     private Produto produto;
 
     public ItemPedido quantidade(Long quantidade) {

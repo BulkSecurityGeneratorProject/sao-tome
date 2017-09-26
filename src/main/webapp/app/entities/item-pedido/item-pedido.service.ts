@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { ItemPedido } from './item-pedido.model';
+import { Comanda } from '../comanda';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
@@ -13,9 +14,8 @@ export class ItemPedidoService {
 
     constructor(private http: Http) { }
 
-    create(itemPedido: ItemPedido): Observable<ItemPedido> {
-        const copy = this.convert(itemPedido);
-        return this.http.post(this.resourceUrl, copy).map((res: Response) => {
+    create(comanda: Comanda, itens: ItemPedido[]): Observable<ItemPedido> {
+        return this.http.post(this.resourceUrl, { comanda, itens }).map((res: Response) => {
             return res.json();
         });
     }
