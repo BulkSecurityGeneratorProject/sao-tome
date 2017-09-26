@@ -15,28 +15,24 @@
     <div class="table-responsive" *ngIf="itemPedidos">
         <table class="table table-striped">
             <thead>
-            <tr>
-            <th><span>ID</span></th>
-            <th><span>Quantidade</span></th>
-            <th><span>Pedido</span></th>
-            <th><span>Produto</span></th>
-            <th></th>
-            </tr>
+                <tr>
+                    <th><span>Pedido</span></th>
+                    <th><span>Produto</span></th>
+                    <th><span>Quantidade</span></th>
+                    <th><span>Valor (R$)</span></th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let itemPedido of itemPedidos ;trackBy: trackId">
-                <td><a [routerLink]="['../item-pedido', itemPedido.id ]">{{itemPedido.id}}</a></td>
-                <td>{{itemPedido.quantidade}}</td>
-                <td>
-                    <div *ngIf="itemPedido.pedido">
-                        <a [routerLink]="['../pedido', itemPedido.pedido?.id ]" >{{itemPedido.pedido?.id}}</a>
-                    </div>
-                </td>
+            <tr *ngFor="let itemPedido of itemPedidos; trackBy: trackId">
+                <td>{{itemPedido.pedido?.id}}</td>
                 <td>
                     <div *ngIf="itemPedido.produto">
                         <a [routerLink]="['../produto', itemPedido.produto?.id ]" >{{itemPedido.produto?.nome}}</a>
                     </div>
                 </td>
+                <td>{{itemPedido.quantidade}}</td>
+                <td>{{itemPedido.valor}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

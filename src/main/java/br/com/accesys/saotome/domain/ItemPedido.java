@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -24,6 +25,10 @@ public class ItemPedido implements Serializable {
 
     @ManyToOne(optional = false)
     private Produto produto;
+
+    public BigDecimal getValor() {
+        return produto.getValor().multiply(BigDecimal.valueOf(quantidade));
+    }
 
     public ItemPedido quantidade(Long quantidade) {
         this.quantidade = quantidade;
