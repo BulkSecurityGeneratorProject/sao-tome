@@ -106,7 +106,7 @@ public class ComandaResourceIntTest {
         assertThat(comandaList).hasSize(databaseSizeBeforeCreate + 1);
         Comanda testComanda = comandaList.get(comandaList.size() - 1);
         assertThat(testComanda.getIdentificador()).isEqualTo(DEFAULT_IDENTIFICADOR);
-        assertThat(testComanda.isDisponivel()).isEqualTo(DEFAULT_DISPONIVEL);
+        assertThat(testComanda.getDisponivel()).isEqualTo(DEFAULT_DISPONIVEL);
     }
 
     @Test
@@ -207,7 +207,7 @@ public class ComandaResourceIntTest {
         assertThat(comandaList).hasSize(databaseSizeBeforeUpdate);
         Comanda testComanda = comandaList.get(comandaList.size() - 1);
         assertThat(testComanda.getIdentificador()).isEqualTo(UPDATED_IDENTIFICADOR);
-        assertThat(testComanda.isDisponivel()).isEqualTo(UPDATED_DISPONIVEL);
+        assertThat(testComanda.getDisponivel()).isEqualTo(UPDATED_DISPONIVEL);
     }
 
     @Test

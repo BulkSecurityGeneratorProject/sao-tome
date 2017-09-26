@@ -3,7 +3,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SaotomeComandaModule } from './comanda/comanda.module';
 import { SaotomeProdutoModule } from './produto/produto.module';
 import { SaotomeEstoqueModule } from './estoque/estoque.module';
-import { SaotomePedidoModule } from './pedido/pedido.module';
 import { SaotomeItemPedidoModule } from './item-pedido/item-pedido.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
@@ -12,7 +11,6 @@ import { SaotomeItemPedidoModule } from './item-pedido/item-pedido.module';
         SaotomeComandaModule,
         SaotomeProdutoModule,
         SaotomeEstoqueModule,
-        SaotomePedidoModule,
         SaotomeItemPedidoModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],

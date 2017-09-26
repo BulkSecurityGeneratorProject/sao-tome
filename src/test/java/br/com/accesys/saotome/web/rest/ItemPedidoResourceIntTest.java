@@ -2,10 +2,12 @@ package br.com.accesys.saotome.web.rest;
 
 import br.com.accesys.saotome.SaotomeApp;
 
+import br.com.accesys.saotome.domain.Comanda;
 import br.com.accesys.saotome.domain.ItemPedido;
 import br.com.accesys.saotome.domain.Pedido;
 import br.com.accesys.saotome.domain.Produto;
 import br.com.accesys.saotome.repository.ItemPedidoRepository;
+import br.com.accesys.saotome.service.PedidoService;
 import br.com.accesys.saotome.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,6 +49,9 @@ public class ItemPedidoResourceIntTest {
     private ItemPedidoRepository itemPedidoRepository;
 
     @Autowired
+    private PedidoService pedidoService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -64,7 +70,7 @@ public class ItemPedidoResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ItemPedidoResource itemPedidoResource = new ItemPedidoResource(itemPedidoRepository);
+        final ItemPedidoResource itemPedidoResource = new ItemPedidoResource(pedidoService, itemPedidoRepository);
         this.restItemPedidoMockMvc = MockMvcBuilders.standaloneSetup(itemPedidoResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -81,7 +87,7 @@ public class ItemPedidoResourceIntTest {
         ItemPedido itemPedido = new ItemPedido()
             .quantidade(DEFAULT_QUANTIDADE);
         // Add required entity
-        Pedido pedido = PedidoResourceIntTest.createEntity(em);
+        Pedido pedido = createPedido(em);
         em.persist(pedido);
         em.flush();
         itemPedido.setPedido(pedido);
@@ -91,6 +97,15 @@ public class ItemPedidoResourceIntTest {
         em.flush();
         itemPedido.setProduto(produto);
         return itemPedido;
+    }
+
+    private static Pedido createPedido(EntityManager em) {
+        Pedido pedido = new Pedido().data(Instant.now());
+        Comanda comanda = ComandaResourceIntTest.createEntity(em);
+        em.persist(comanda);
+        em.flush();
+        pedido.setComanda(comanda);
+        return pedido;
     }
 
     @Before
