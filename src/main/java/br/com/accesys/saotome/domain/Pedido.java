@@ -1,15 +1,13 @@
 package br.com.accesys.saotome.domain;
 
+import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Objects;
 
-/**
- * A Pedido.
- */
+@Data
 @Entity
 @Table(name = "pedido")
 public class Pedido implements Serializable {
@@ -28,67 +26,13 @@ public class Pedido implements Serializable {
     @NotNull
     private Comanda comanda;
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getData() {
-        return data;
-    }
-
     public Pedido data(Instant data) {
         this.data = data;
         return this;
     }
 
-    public void setData(Instant data) {
-        this.data = data;
-    }
-
-    public Comanda getComanda() {
-        return comanda;
-    }
-
     public Pedido comanda(Comanda comanda) {
         this.comanda = comanda;
         return this;
-    }
-
-    public void setComanda(Comanda comanda) {
-        this.comanda = comanda;
-    }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Pedido pedido = (Pedido) o;
-        if (pedido.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), pedido.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Pedido{" +
-            "id=" + getId() +
-            ", data='" + getData() + "'" +
-            "}";
     }
 }
