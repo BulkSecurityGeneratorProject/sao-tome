@@ -63,6 +63,16 @@ export class ItemPedidoDialogComponent implements OnInit {
             this.itemPedidoService.create(this.comanda, this.itemPedidos));
     }
 
+    valorTotal() {
+        return this.itemPedidos
+            .map(this.valorItem)
+            .reduce((sum, value) => sum + value);
+    }
+
+    valorItem(item: ItemPedido) {
+        return item.quantidade * item.produto.valor;
+    }
+
     private subscribeToSaveResponse(result: Observable<ItemPedido>) {
         result.subscribe((res: ItemPedido) =>
             this.onSaveSuccess(res), (res: Response) => this.onSaveError());

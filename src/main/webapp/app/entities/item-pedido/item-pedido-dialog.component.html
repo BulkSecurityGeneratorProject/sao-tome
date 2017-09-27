@@ -64,12 +64,21 @@
                 <tr>
                     <th><span>Produto</span></th>
                     <th><span>Quantidade</span></th>
+                    <th><span>Valor</span></th>
                 </tr>
             </thead>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total </td>
+                    <td>R$ {{valorTotal()}}</td>
+                </tr>
+            </tfoot>
             <tbody>
                 <tr *ngFor="let itemPedido of itemPedidos;">
                     <td>{{itemPedido.produto?.nome}}</td>
                     <td>{{itemPedido.quantidade}}</td>
+                    <td>R$ {{valorItem(itemPedido)}}</td>
                     </td>
                 </tr>
             </tbody>
