@@ -79,13 +79,12 @@ public class ItemPedidoResourceIntTest {
 
     /**
      * Create an entity for this test.
-     *
+     * <p>
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
     public static ItemPedido createEntity(EntityManager em) {
-        ItemPedido itemPedido = new ItemPedido()
-            .quantidade(DEFAULT_QUANTIDADE);
+        ItemPedido itemPedido = new ItemPedido().quantidade(DEFAULT_QUANTIDADE);
         // Add required entity
         Pedido pedido = createPedido(em);
         em.persist(pedido);
@@ -180,87 +179,6 @@ public class ItemPedidoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPedido.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantidade").value(hasItem(DEFAULT_QUANTIDADE.intValue())));
-    }
-
-    @Test
-    @Transactional
-    public void getItemPedido() throws Exception {
-        // Initialize the database
-        itemPedidoRepository.saveAndFlush(itemPedido);
-
-        // Get the itemPedido
-        restItemPedidoMockMvc.perform(get("/api/item-pedidos/{id}", itemPedido.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(itemPedido.getId().intValue()))
-            .andExpect(jsonPath("$.quantidade").value(DEFAULT_QUANTIDADE.intValue()));
-    }
-
-    @Test
-    @Transactional
-    public void getNonExistingItemPedido() throws Exception {
-        // Get the itemPedido
-        restItemPedidoMockMvc.perform(get("/api/item-pedidos/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Transactional
-    public void updateItemPedido() throws Exception {
-        // Initialize the database
-        itemPedidoRepository.saveAndFlush(itemPedido);
-        int databaseSizeBeforeUpdate = itemPedidoRepository.findAll().size();
-
-        // Update the itemPedido
-        ItemPedido updatedItemPedido = itemPedidoRepository.findOne(itemPedido.getId());
-        updatedItemPedido
-            .quantidade(UPDATED_QUANTIDADE);
-
-        restItemPedidoMockMvc.perform(put("/api/item-pedidos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedItemPedido)))
-            .andExpect(status().isOk());
-
-        // Validate the ItemPedido in the database
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeUpdate);
-        ItemPedido testItemPedido = itemPedidoList.get(itemPedidoList.size() - 1);
-        assertThat(testItemPedido.getQuantidade()).isEqualTo(UPDATED_QUANTIDADE);
-    }
-
-    @Test
-    @Transactional
-    public void updateNonExistingItemPedido() throws Exception {
-        int databaseSizeBeforeUpdate = itemPedidoRepository.findAll().size();
-
-        // Create the ItemPedido
-
-        // If the entity doesn't have an ID, it will be created instead of just being updated
-        restItemPedidoMockMvc.perform(put("/api/item-pedidos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPedido)))
-            .andExpect(status().isCreated());
-
-        // Validate the ItemPedido in the database
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeUpdate + 1);
-    }
-
-    @Test
-    @Transactional
-    public void deleteItemPedido() throws Exception {
-        // Initialize the database
-        itemPedidoRepository.saveAndFlush(itemPedido);
-        int databaseSizeBeforeDelete = itemPedidoRepository.findAll().size();
-
-        // Get the itemPedido
-        restItemPedidoMockMvc.perform(delete("/api/item-pedidos/{id}", itemPedido.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
-
-        // Validate the database is empty
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
     @Test

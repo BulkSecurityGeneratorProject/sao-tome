@@ -6,11 +6,8 @@ import {
     ItemPedidoService,
     ItemPedidoPopupService,
     ItemPedidoComponent,
-    ItemPedidoDetailComponent,
     ItemPedidoDialogComponent,
     ItemPedidoPopupComponent,
-    ItemPedidoDeletePopupComponent,
-    ItemPedidoDeleteDialogComponent,
     itemPedidoRoute,
     itemPedidoPopupRoute,
 } from './';
@@ -27,18 +24,13 @@ const ENTITY_STATES = [
     ],
     declarations: [
         ItemPedidoComponent,
-        ItemPedidoDetailComponent,
         ItemPedidoDialogComponent,
-        ItemPedidoDeleteDialogComponent,
         ItemPedidoPopupComponent,
-        ItemPedidoDeletePopupComponent,
     ],
     entryComponents: [
         ItemPedidoComponent,
         ItemPedidoDialogComponent,
         ItemPedidoPopupComponent,
-        ItemPedidoDeleteDialogComponent,
-        ItemPedidoDeletePopupComponent,
     ],
     providers: [
         ItemPedidoService,
