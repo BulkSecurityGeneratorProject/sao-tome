@@ -1,7 +1,6 @@
 package br.com.accesys.saotome.web.rest;
 
 import br.com.accesys.saotome.SaotomeApp;
-
 import br.com.accesys.saotome.domain.Comanda;
 import br.com.accesys.saotome.domain.ItemPedido;
 import br.com.accesys.saotome.domain.Pedido;
@@ -9,7 +8,6 @@ import br.com.accesys.saotome.domain.Produto;
 import br.com.accesys.saotome.repository.ItemPedidoRepository;
 import br.com.accesys.saotome.service.PedidoService;
 import br.com.accesys.saotome.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -114,61 +110,6 @@ public class ItemPedidoResourceIntTest {
 
     @Test
     @Transactional
-    public void createItemPedido() throws Exception {
-        int databaseSizeBeforeCreate = itemPedidoRepository.findAll().size();
-
-        // Create the ItemPedido
-        restItemPedidoMockMvc.perform(post("/api/item-pedidos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPedido)))
-            .andExpect(status().isCreated());
-
-        // Validate the ItemPedido in the database
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeCreate + 1);
-        ItemPedido testItemPedido = itemPedidoList.get(itemPedidoList.size() - 1);
-        assertThat(testItemPedido.getQuantidade()).isEqualTo(DEFAULT_QUANTIDADE);
-    }
-
-    @Test
-    @Transactional
-    public void createItemPedidoWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = itemPedidoRepository.findAll().size();
-
-        // Create the ItemPedido with an existing ID
-        itemPedido.setId(1L);
-
-        // An entity with an existing ID cannot be created, so this API call must fail
-        restItemPedidoMockMvc.perform(post("/api/item-pedidos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPedido)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the ItemPedido in the database
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    public void checkQuantidadeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = itemPedidoRepository.findAll().size();
-        // set the field null
-        itemPedido.setQuantidade(null);
-
-        // Create the ItemPedido, which fails.
-
-        restItemPedidoMockMvc.perform(post("/api/item-pedidos")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(itemPedido)))
-            .andExpect(status().isBadRequest());
-
-        List<ItemPedido> itemPedidoList = itemPedidoRepository.findAll();
-        assertThat(itemPedidoList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllItemPedidos() throws Exception {
         // Initialize the database
         itemPedidoRepository.saveAndFlush(itemPedido);
@@ -179,20 +120,5 @@ public class ItemPedidoResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(itemPedido.getId().intValue())))
             .andExpect(jsonPath("$.[*].quantidade").value(hasItem(DEFAULT_QUANTIDADE.intValue())));
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(ItemPedido.class);
-        ItemPedido itemPedido1 = new ItemPedido();
-        itemPedido1.setId(1L);
-        ItemPedido itemPedido2 = new ItemPedido();
-        itemPedido2.setId(itemPedido1.getId());
-        assertThat(itemPedido1).isEqualTo(itemPedido2);
-        itemPedido2.setId(2L);
-        assertThat(itemPedido1).isNotEqualTo(itemPedido2);
-        itemPedido1.setId(null);
-        assertThat(itemPedido1).isNotEqualTo(itemPedido2);
     }
 }

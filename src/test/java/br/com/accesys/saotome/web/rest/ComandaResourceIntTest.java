@@ -244,19 +244,4 @@ public class ComandaResourceIntTest {
         List<Comanda> comandaList = comandaRepository.findAll();
         assertThat(comandaList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Comanda.class);
-        Comanda comanda1 = new Comanda();
-        comanda1.setId(1L);
-        Comanda comanda2 = new Comanda();
-        comanda2.setId(comanda1.getId());
-        assertThat(comanda1).isEqualTo(comanda2);
-        comanda2.setId(2L);
-        assertThat(comanda1).isNotEqualTo(comanda2);
-        comanda1.setId(null);
-        assertThat(comanda1).isNotEqualTo(comanda2);
-    }
 }
